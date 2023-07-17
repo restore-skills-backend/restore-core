@@ -12,6 +12,7 @@
 	<artifactId>restore-core</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
 	<name>restore-core</name>
+	<packaging>jar</packaging>
 	<description>Restore skills Services will use this core library for reusable components</description>
 	<properties>
 		<java.version>17</java.version>
@@ -118,8 +119,8 @@
 	<distributionManagement>
 		<repository>
 			<id>github</id>
-			<name>Restore-skills</name>
-			<url>--Your repository url where core has kept.--</url>
+			<name>restore-skills-backend</name>
+			<url>https://maven.pkg.github.com/restore-skills-backend/restore-core</url>
 		</repository>
 	</distributionManagement>
 
