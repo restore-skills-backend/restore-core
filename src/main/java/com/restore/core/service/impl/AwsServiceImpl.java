@@ -1,11 +1,11 @@
 package com.restore.core.service.impl;
 
-import com.restore.core.exception.RestoreSkillsException;
-import com.restore.core.service.AppService;
-import com.restore.core.service.AwsService;
 import com.restore.core.config.TenantIdentifierResolver;
 import com.restore.core.dto.app.enums.ReferenceType;
 import com.restore.core.dto.response.ResponseCode;
+import com.restore.core.exception.RestoreSkillsException;
+import com.restore.core.service.AppService;
+import com.restore.core.service.AwsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,7 +52,7 @@ public class AwsServiceImpl extends AppService implements AwsService {
 
     @Override
     public String uploadProviderGroupsProfilePhoto(String providerGroupName, String base64ProfilePhoto,
-            String bucketName, String avatarKey) throws IOException {
+                                                   String bucketName, String avatarKey) throws IOException {
         byte[] decodedBytes = Base64.getDecoder().decode(base64ProfilePhoto);
         String profilePhotoKey;
         if (Objects.nonNull(avatarKey)) {
@@ -105,7 +105,7 @@ public class AwsServiceImpl extends AppService implements AwsService {
 
     @Override
     public String uploadProviderProfilePhoto(UUID providerId, String base64ProfilePhoto, String avtarKey,
-            String bucketName) throws IOException, RestoreSkillsException {
+                                             String bucketName) throws IOException, RestoreSkillsException {
         byte[] decodedBytes = Base64.getDecoder().decode(base64ProfilePhoto);
         if (avtarKey == null) {
             avtarKey = buildPath(ReferenceType.PROVIDER_PROFILE, providerId);
@@ -130,9 +130,11 @@ public class AwsServiceImpl extends AppService implements AwsService {
     }
 
     @Override
-    public String uploadStaffProfile(String base64) throws RestoreSkillsException {
+    public String uploadStaffProfile(String base64, UUID uuid, String avtarKey) throws RestoreSkillsException {
         byte[] decodedBytes = Base64.getDecoder().decode(base64);
-        String avtarKey = buildPath(ReferenceType.STAFF_PROFILE, null);
+        if(avtarKey == null){
+            avtarKey = buildPath(ReferenceType.STAFF_PROFILE, uuid);
+        }
         return uploadToS3AndGetKey(bucketName, avtarKey, decodedBytes);
     }
 
@@ -180,7 +182,7 @@ public class AwsServiceImpl extends AppService implements AwsService {
                         + UUID.randomUUID().toString();
             }
             case STAFF_PROFILE -> {
-                return "ProviderGroup/" + contextProviderGroup + "/staff/profile" + UUID.randomUUID().toString();
+                return "ProviderGroup/" + contextProviderGroup + "/staff"+uuid+"/profile" + UUID.randomUUID().toString();
             }
         }
         throwError(ResponseCode.BAD_REQUEST, "Invalid context! no reference type found");

@@ -1,7 +1,7 @@
 package com.restore.core.service;
 
-import com.restore.core.exception.RestoreSkillsException;
 import com.restore.core.dto.app.enums.ReferenceType;
+import com.restore.core.exception.RestoreSkillsException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface AwsService {
     String uploadProviderGroupsProfilePhoto(String providerGroupName, String base64ProfilePhoto, String bucketName,
-            String avatarKey) throws IOException;
+                                            String avatarKey) throws IOException;
 
     String getProviderGroupsProfilePhoto(String profilePhotoKey, String bucketName);
 
@@ -28,5 +28,5 @@ public interface AwsService {
     String uploadAdminProfilePhoto(String base64ProfilePhoto, String avtarKey) throws RestoreSkillsException;
     Set<String> uploadFiles(MultipartFile[] multipartFiles, ReferenceType referenceType, UUID uuid) throws RestoreSkillsException, IOException;
 
-    String uploadStaffProfile(String avatar) throws RestoreSkillsException;
+    String uploadStaffProfile(String base64, UUID uuid, String avtarKey) throws RestoreSkillsException;
 }
